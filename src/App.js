@@ -31,8 +31,8 @@ class App extends Component {
   salvaUltimoBottonePremuto = (value) => {
     // Controlla se è già stato premuto un pulsante
     if (this.state.ultimoBottonePremuto !== null) {
-      // Concatena il nuovo valore al valore precedente
-      value = this.state.ultimoBottonePremuto + value;
+      // Aggiungi il nuovo valore al valore precedente separandoli con una stringa vuota
+      value = this.state.ultimoBottonePremuto + '' + value;
     }
   
     this.setState({ ultimoBottonePremuto: value });
@@ -40,7 +40,6 @@ class App extends Component {
 
   render() {
     return (
-      <form>
         <div className="container mt-5 rounded bg-dark pb-3" style={{ maxWidth: '300px', border: "3px solid #ffc107", boxShadow: '10px 10px 5px 0px rgba(0,0,0,0.25)' }}>
           <div className="row mt-4 mb-4 rounded" style={{ justifyContent: 'center' }}>
           <Display ultimoBottonePremuto={this.state.ultimoBottonePremuto} />
@@ -55,7 +54,6 @@ class App extends Component {
             ))}
           </div>
         </div>
-      </form>
     );
   }
 }

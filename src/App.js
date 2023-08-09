@@ -25,35 +25,84 @@ class App extends Component {
       { id: 15, tasto: "/", value: "/", col: "col-3", width: "20%", buttonStyle: "btn btn-warning rounded" },
       { id: 16, tasto: "=", value: "=", col: "col-12", width: "95%", buttonStyle: "btn btn-warning rounded" }
     ],
-    ultimoBottonePremuto: null
+    primoAddendo: null,
+    secondoAddendo: null,
+    operatore: null,
+    risultato: null
   }
-  
+
   salvaUltimoBottonePremuto = (value) => {
-    // Controlla se è già stato premuto un pulsante
-    if (this.state.ultimoBottonePremuto !== null) {
-      // Aggiungi il nuovo valore al valore precedente separandoli con una stringa vuota
-      value = this.state.ultimoBottonePremuto + '' + value;
+    // Controlla se il valore del tasto premuto è "="
+    if (value === "=") {
+      // Esegui l'operazione
+      this.eseguiOperazione();
+    } else {
+      // Controlla se il valore del tasto premuto è "C" (cancellazione)
+      if (value === "C") {
+        // Svuota le variabili e il display
+        this.setState({ primoAddendo: null, secondoAddendo: null });
+      }
+      // Controlla se il valore del tasto premuto è uno degli operatori (+, -, *, /)
+      else if (value === "+" || value === "-" || value === "*" || value === "/") {
+        // Svuota il display e crea una nuova variabile per il secondo addendo
+        this.setState({ primoAddendo: null, secondoAddendo: this.state.primoAddendo, operatore: value });
+      } else {
+        // Controlla se è già stato premuto un pulsante
+        if (this.state.primoAddendo !== null) {
+          // Aggiungi il nuovo valore al valore precedente
+          this.setState({ primoAddendo: this.state.primoAddendo + '' + value });
+        } else {
+          this.setState({ primoAddendo: value });
+        }
+      }
     }
-  
-    this.setState({ ultimoBottonePremuto: value });
   }
+
+  eseguiOperazione = () => {
+    const { secondoAddendo, primoAddendo, operatore } = this.state;
+
+    if (primoAddendo !== null && secondoAddendo !== null && operatore !== null) {
+      let risultato;
+
+      switch (operatore) {
+        case "+":
+          risultato = parseFloat(primoAddendo) + parseFloat(secondoAddendo);
+          break;
+        case "-":
+          risultato = parseFloat(secondoAddendo) - parseFloat(primoAddendo);
+          break;
+        case "*":
+          risultato = parseFloat(primoAddendo) * parseFloat(secondoAddendo);
+          break;
+        case "/":
+          risultato = parseFloat(secondoAddendo) / parseFloat(primoAddendo);
+          break;
+        default:
+          break;
+      }
+
+      this.setState({ primoAddendo: risultato, secondoAddendo: null, operatore: null });
+    }
+  }
+
+
 
   render() {
     return (
-        <div className="container mt-5 rounded bg-dark pb-3" style={{ maxWidth: '300px', border: "3px solid #ffc107", boxShadow: '10px 10px 5px 0px rgba(0,0,0,0.25)' }}>
-          <div className="row mt-4 mb-4 rounded" style={{ justifyContent: 'center' }}>
-          <Display ultimoBottonePremuto={this.state.ultimoBottonePremuto} />
-          </div>
-          <div className="row m-0">
-            {this.state.tasti.map(tasto => (
-              <Tasto
-                key={tasto.id}
-                onClick={this.salvaUltimoBottonePremuto}
-                tastoProps = {tasto}
-              />
-            ))}
-          </div>
+      <div className="container mt-5 rounded bg-dark pb-3" style={{ maxWidth: '300px', border: "3px solid #ffc107", boxShadow: '10px 10px 5px 0px rgba(0,0,0,0.25)' }}>
+        <div className="row mt-4 mb-4 rounded" style={{ justifyContent: 'center' }}>
+          <Display primoAddendo={this.state.primoAddendo} />
         </div>
+        <div className="row m-0">
+          {this.state.tasti.map(tasto => (
+            <Tasto
+              key={tasto.id}
+              onClick={this.salvaUltimoBottonePremuto}
+              tastoProps={tasto}
+            />
+          ))}
+        </div>
+      </div>
     );
   }
 }

@@ -1,6 +1,7 @@
 import './App.css';
 import React, { Component } from 'react';
 import Tasti from './components/tasto-calcolatrice';
+import Cards from './components/card-memory.js';
 import Display from './components/display-calcolatrice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
@@ -8,6 +9,16 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 class App extends Component {
   state = {
+    cards: [
+      { id: 0, emoji: '🐶', value: '1', stato: 'coperto', col: 'col-6', width: 'auto', cardStyle: 'btn btn-danger rounded p-1' },
+      { id: 1, emoji: '🐶', value: '1', stato: 'coperto', col: 'col-6', width: 'auto', cardStyle: 'btn btn-danger rounded p-1' },
+      { id: 2, emoji: '🐻', value: '2', stato: 'coperto', col: 'col-6', width: 'auto', cardStyle: 'btn btn-primary rounded p-1' },
+      { id: 3, emoji: '🐻', value: '2', stato: 'coperto', col: 'col-6', width: 'auto', cardStyle: 'btn btn-primary rounded p-1' },
+      { id: 4, emoji: '🐼', value: '3', stato: 'coperto', col: 'col-6', width: 'auto', cardStyle: 'btn btn-success rounded p-1' },
+      { id: 5, emoji: '🐼', value: '3', stato: 'coperto', col: 'col-6', width: 'auto', cardStyle: 'btn btn-success rounded p-1' },
+      { id: 6, emoji: '🐰', value: '4', stato: 'coperto', col: 'col-6', width: 'auto', cardStyle: 'btn btn-warning rounded p-1' },
+      { id: 7, emoji: '🐰', value: '4', stato: 'coperto', col: 'col-6', width: 'auto', cardStyle: 'btn btn-warning rounded p-1' },
+    ],
     tasti: [
       { id: 0, tasto: "7", value: 7, col: "col-3", width: "20%", buttonStyle: "btn btn-secondary rounded" },
       { id: 1, tasto: "8", value: 8, col: "col-3", width: "20%", buttonStyle: "btn btn-secondary rounded" },
@@ -112,9 +123,22 @@ class App extends Component {
     return (
       <>
         {/* HTML LOG */}
-        <div className={`container mt-5 rounded bg-dark pb-3 ${isContainerOpen2 ? 'open2 container-shadow2' : 'closed2 container-shadow-closed2'}`} style={{ transition: 'transform 2s ease,  box-shadow 2s ease', position: 'absolute', left: '342px', maxWidth: '203px', height: '401px', border: "3px solid #ffc107" }}>
+        <div className={`container mt-5 rounded bg-dark pb-3 ${isContainerOpen2 ? 'open2 container-shadow-closed2' : 'closed2 container-shadow2'}`} style={{ transition: 'transform 2s ease,  box-shadow 2s ease', position: 'absolute', left: '342px', maxWidth: '203px', height: '401px', border: "3px solid #ffc107" }}>
           <div className={`row pt-4 pb-4`}>
-            <div className="col-6 p-0" style={{ cursor: 'pointer', whiteSpace: 'pre-wrap', overflow: 'auto', color: '#ffc107', backgroundColor: '#212529', border: '1px solid #212529', width: '150px', height: '340px' }} ><p style={{textAlign: 'center'}}>{"MEMORY\n" + this.state.log}</p></div>
+            <div className="col-6 p-0" style={{ cursor: 'pointer', color: '#ffc107', backgroundColor: '#212529', border: '1px solid #212529', width: '150px', height: '340px' }} >
+              <p style={{ textAlign: 'center' }}>{"MEMORY\n" + this.state.log}</p>
+              <div className='container' style={{ height: '285px', border: '2px solid red' }}>
+                <div className="row m-0">
+                  {this.state.cards.map(card => (
+                    <Cards
+                      key={card.id}
+                      onClick={this.salvaUltimoBottonePremuto}
+                      cardProps={card}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
             <FontAwesomeIcon
               className="col-6" icon={faChevronRight} style={{ color: "#ffc107", marginTop: "185px", width: '15px', cursor: 'pointer' }} onClick={this.handleIconClick2} />
           </div>

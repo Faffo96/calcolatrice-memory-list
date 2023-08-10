@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Tasto from './components/tasto-calcolatrice';
-import tasti from './components/tasto-calcolatrice';
+import Tasti from './components/tasto-calcolatrice';
 import Display from './components/display-calcolatrice';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 class App extends Component {
   state = {
@@ -28,7 +28,8 @@ class App extends Component {
     primoAddendo: null,
     secondoAddendo: null,
     operatore: null,
-    risultato: null
+    risultato: null,
+    log: ""
   }
 
   salvaUltimoBottonePremuto = (value) => {
@@ -59,11 +60,11 @@ class App extends Component {
   }
 
   eseguiOperazione = () => {
-    const { secondoAddendo, primoAddendo, operatore } = this.state;
-
+    const { secondoAddendo, primoAddendo, operatore, log } = this.state;
+  
     if (primoAddendo !== null && secondoAddendo !== null && operatore !== null) {
       let risultato;
-
+  
       switch (operatore) {
         case "+":
           risultato = parseFloat(primoAddendo) + parseFloat(secondoAddendo);
@@ -80,8 +81,10 @@ class App extends Component {
         default:
           break;
       }
-
-      this.setState({ primoAddendo: risultato, secondoAddendo: null, operatore: null });
+  
+      const nuovoLog = `${log}${primoAddendo}\n${operatore}\n${secondoAddendo}\n=\n${risultato}\n`;
+  
+      this.setState({ primoAddendo: risultato, secondoAddendo: null, operatore: null, log: nuovoLog });
     }
   }
 
@@ -89,20 +92,28 @@ class App extends Component {
 
   render() {
     return (
-      <div className="container mt-5 rounded bg-dark pb-3" style={{ maxWidth: '300px', border: "3px solid #ffc107", boxShadow: '10px 10px 5px 0px rgba(0,0,0,0.25)' }}>
-        <div className="row mt-4 mb-4 rounded" style={{ justifyContent: 'center' }}>
-          <Display primoAddendo={this.state.primoAddendo} />
+      <>
+        <div className="container mt-5 rounded bg-dark pb-3" style={{ position: 'absolute', left: '0px', maxWidth: '203px', height: '401px', border: "3px solid #ffc107", boxShadow: '10px 10px 5px 0px rgba(0,0,0,0.25)' }}>
+          <div className="row pt-4 pb-4">
+            <FontAwesomeIcon className="col-6" icon={faChevronLeft} style={{ color: "#ffc107", marginTop: "185px", width:'15px' }} />
+            <textarea readOnly className="col-6 p-0" style={{whiteSpace: 'pre-wrap', overflow: 'auto', color: '#ffc107', backgroundColor: '#212529', border: '1px solid #212529', width:'150px', height: '340px'}} value={this.state.log}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ut scelerisque ante. Vestibulum at tortor auctor, euismod orci non, consectetur nunc. Nulla tincidunt, elit nec feugiat efficitur, dui ligula facilisis nunc, vel efficitur enim ligula non urna. Aliquam pellentesque turpis sed leo auctor, in vestibulum orci finibus. Sed vitae justo nec velit semper sollicitudin. Fusce id aliquet dolor, et cursus risus. Integer pulvinar ex nec purus sollicitudin, et commodo turpis auctor. Sed laoreet, sem vitae rhoncus imperdiet, ante nisl lacinia leo, non luctus justo justo eu nunc. Praesent et odio placerat, gravida lectus eget, tincidunt erat. Curabitur lacinia mauris a purus finibus, nec blandit libero lobortis.</textarea>
+          </div>
         </div>
-        <div className="row m-0">
-          {this.state.tasti.map(tasto => (
-            <Tasto
-              key={tasto.id}
-              onClick={this.salvaUltimoBottonePremuto}
-              tastoProps={tasto}
-            />
-          ))}
+        <div className="container mt-5 rounded bg-dark pb-3" style={{ position: 'absolute', left: '200px', maxWidth: '300px', border: "3px solid #ffc107", boxShadow: '10px 10px 5px 0px rgba(0,0,0,0.25)' }}>
+          <div className="row mt-4 mb-4 rounded" style={{ justifyContent: 'center' }}>
+            <Display primoAddendo={this.state.primoAddendo} />
+          </div>
+          <div className="row m-0">
+            {this.state.tasti.map(tasto => (
+              <Tasti
+                key={tasto.id}
+                onClick={this.salvaUltimoBottonePremuto}
+                tastoProps={tasto}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 }

@@ -4,7 +4,7 @@ import Tasti from './components/tasto-calcolatrice';
 import Display from './components/display-calcolatrice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 class App extends Component {
   state = {
@@ -32,10 +32,11 @@ class App extends Component {
     operatore: null,
     risultato: null,
     log: "",
-    isContainerOpen: true
+    isContainerOpen: false,
+    isContainerOpen2: true
   }
 
-
+  /* FUNZIONALITA CALCOLATRICE + LOG */
 
   salvaUltimoBottonePremuto = (value) => {
     // Controlla se il valore del tasto premuto è "="
@@ -92,24 +93,41 @@ class App extends Component {
       this.setState({ primoAddendo: risultato, secondoAddendo: null, operatore: null, log: nuovoLog });
     }
   }
-
+  /* BOTTONE ANIMAZIONE LOG */
   handleIconClick = () => {
     this.setState(prevState => ({
       isContainerOpen: !prevState.isContainerOpen,
     }));
   };
-  
+
+  handleIconClick2 = () => {
+    this.setState(prevState => ({
+      isContainerOpen2: !prevState.isContainerOpen2,
+    }));
+  };
+
   render() {
     const { isContainerOpen } = this.state;
+    const { isContainerOpen2 } = this.state;
     return (
       <>
-        <div className={`container mt-5 rounded bg-dark pb-3 ${isContainerOpen ? 'open container-shadow' : 'closed'}`} style={{ transition: 'transform 0.5s ease', position: 'absolute', left: '0px', maxWidth: '203px', height: '401px', border: "3px solid #ffc107" }}>
-        <div className={`row pt-4 pb-4`}>
+        {/* HTML LOG */}
+        <div className={`container mt-5 rounded bg-dark pb-3 ${isContainerOpen2 ? 'open2 container-shadow2' : 'closed2 container-shadow-closed2'}`} style={{ transition: 'transform 2s ease,  box-shadow 2s ease', position: 'absolute', left: '342px', maxWidth: '203px', height: '401px', border: "3px solid #ffc107" }}>
+          <div className={`row pt-4 pb-4`}>
+            <div className="col-6 p-0" style={{ cursor: 'pointer', whiteSpace: 'pre-wrap', overflow: 'auto', color: '#ffc107', backgroundColor: '#212529', border: '1px solid #212529', width: '150px', height: '340px' }} ><p style={{textAlign: 'center'}}>{"MEMORY\n" + this.state.log}</p></div>
             <FontAwesomeIcon
-              className="col-6" icon={faChevronLeft} style={{ color: "#ffc107", marginTop: "185px", width: '15px', cursor: 'pointer'}} onClick={this.handleIconClick} />
+              className="col-6" icon={faChevronRight} style={{ color: "#ffc107", marginTop: "185px", width: '15px', cursor: 'pointer' }} onClick={this.handleIconClick2} />
+          </div>
+        </div>
+
+        <div className={`container mt-5 rounded bg-dark pb-3 ${isContainerOpen ? 'open container-shadow' : 'closed container-shadow-closed'}`} style={{ transition: 'transform 2s ease,  box-shadow 2s ease', position: 'absolute', left: '0px', maxWidth: '203px', height: '401px', border: "3px solid #ffc107" }}>
+          <div className={`row pt-4 pb-4`}>
+            <FontAwesomeIcon
+              className="col-6" icon={faChevronLeft} style={{ color: "#ffc107", marginTop: "185px", width: '15px', cursor: 'pointer' }} onClick={this.handleIconClick} />
             <textarea readOnly className="col-6 p-0" style={{ cursor: 'pointer', whiteSpace: 'pre-wrap', overflow: 'auto', color: '#ffc107', backgroundColor: '#212529', border: '1px solid #212529', width: '150px', height: '340px' }} value={"LOG\n" + this.state.log}></textarea>
           </div>
         </div>
+        {/* HTML calcolatrice */}
         <div className="container mt-5 rounded bg-dark pb-3" style={{ position: 'absolute', left: '200px', maxWidth: '300px', border: "3px solid #ffc107", boxShadow: '10px 10px 5px 0px rgba(0,0,0,0.25)' }}>
           <div className="row mt-4 mb-4 rounded" style={{ justifyContent: 'center' }}>
             <Display primoAddendo={this.state.primoAddendo} />

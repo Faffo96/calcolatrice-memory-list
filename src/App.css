@@ -39,14 +39,40 @@
 
 .open {
   transform: translateX(0);
-  transition: transform 0.5s ease;
+  transition: transform 6s ease;
 }
 
 .closed {
   transform: translateX(155px);
-  transition: transform 0.5s ease;
+  transition: transform 6s ease;
 }
 
 .container-shadow {
   box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.25);
+  transition: box-shadow 6s ease;
+}
+
+.container-shadow-closed {
+  box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0);
+  transition: box-shadow 6s ease;
+}
+
+.open2 {
+  transform: translateX(0);
+  transition: transform 6s ease;
+}
+
+.closed2 {
+  transform: translateX(155px);
+  transition: transform 6s ease;
+}
+
+.container-shadow2 {
+  box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.25);
+  transition: box-shadow 6s ease;
+}
+
+.container-shadow-closed2 {
+  box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0);
+  transition: box-shadow 6s ease;
 }

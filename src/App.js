@@ -65,12 +65,16 @@ class App extends Component {
   }
 
   ripristinaCarte = () => {
+    
     const { cards } = this.state;
+    
     const resetCards = cards.map(card => {
       return { ...card, stato: 'coperto' };
     });
-    this.setState({ cards: resetCards, coppieScoperte: 0 });
-  }
+    this.setState({ cards: resetCards, coppieScoperte: 0 }, () => {
+    this.shuffleCards();
+  })
+}
   /* FUNZIONALITA CALCOLATRICE + LOG */
 
   salvaUltimoBottonePremuto = (value) => {
@@ -205,10 +209,10 @@ class App extends Component {
     return (
       <>
         {/* HTML LOG */}
-        <div className={`container mt-5 rounded bg-dark pb-3 ${isContainerOpen2 ? 'open2 container-shadow-closed2' : 'closed2 container-shadow2'}`} style={{ transition: 'transform 2s ease,  box-shadow 2s ease', position: 'absolute', left: '342px', maxWidth: '203px', height: '401px', border: "3px solid #ffc107" }}>
+        <div className={`container mt-5 rounded bg-dark pb-3 ${isContainerOpen2 ? 'open2 container-shadow-closed2' : 'closed2 container-shadow2'}`} style={{ transition: 'transform 2s ease,  box-shadow 2s ease', position: 'absolute', left: '342px', maxWidth: '18.7%', height: '43.2%', border: "3px solid #ffc107" }}>
           <div className={`row pt-4 pb-4`}>
             <div className="col-6 p-0" style={{ marginLeft:'20px', cursor: 'pointer', color: '#ffc107', backgroundColor: '#212529', border: '1px solid #212529', width: '145px', height: '340px' }} >
-              <p style={{ textAlign: 'center' }}>{"MEMORY\n" + this.state.log}</p>
+              <p style={{ textAlign: 'center' }}>{"MEMORY\n"}</p>
               <div className='container' style={{ height: '285px'}}>
                 <div className="row m-0" style={{paddingLeft:'4px'}}>
                   {this.state.cards.map(card => (
@@ -236,7 +240,7 @@ class App extends Component {
           </div>
         </div>
         {/* HTML calcolatrice */}
-        <div className="container mt-5 rounded bg-dark pb-3" style={{ position: 'absolute', left: '200px', maxWidth: '300px', border: "3px solid #ffc107", boxShadow: '10px 10px 5px 0px rgba(0,0,0,0.25)' }}>
+        <div className="container mt-5 rounded bg-dark pb-3" style={{ position: 'absolute', left: '200px', maxWidth: '18.7%', maxHeight: '', border: "3px solid #ffc107", boxShadow: '10px 10px 5px 0px rgba(0,0,0,0.25)' }}>
           <div className="row mt-4 mb-4 rounded" style={{ justifyContent: 'center' }}>
             <Display primoAddendo={this.state.primoAddendo} />
           </div>
